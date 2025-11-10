@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "245179748835",
+    "project_id": "petmeteo",
+    "storage_bucket": "petmeteo.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:245179748835:android:518dc318eef958dd6250d6",
+        "android_client_info": {
+          "package_name": "com.example.petmeteo"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA0TLgRwJ2qwXl7xXz2Z2Jw6IBKCkyzPXc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
