@@ -74,6 +74,8 @@ flutter:
      - assets/images/sadcats/
      - assets/images/saddogs/
      - assets/images/default/
+     - .env
+     
   #   - images/a_dot_ham.jpegg
 
   # An image asset can refer to one or more resolution-specific "variants", see
