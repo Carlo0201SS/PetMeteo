@@ -22,10 +22,10 @@ class UserButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: onPressed,
       style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.all<Color>(color),
-        foregroundColor: MaterialStateProperty.all<Color>(color1),
-        minimumSize: MaterialStateProperty.all(Size(180, 50)),
-        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+        backgroundColor: WidgetStateProperty.all<Color>(color),
+        foregroundColor: WidgetStateProperty.all<Color>(color1),
+        minimumSize: WidgetStateProperty.all(Size(180, 50)),
+        shape: WidgetStateProperty.all<RoundedRectangleBorder>(
           RoundedRectangleBorder(
             borderRadius: BorderRadius.zero, // ← ZERO = squadrato perfetto
           ),
