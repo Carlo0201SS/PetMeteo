@@ -459,31 +459,6 @@ PromptService promptclassifier = PromptService();
       PromptService promptgenerationtext = PromptService();
       
       
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
       _llmRequest2 = LLMRequest2(
         model: "gpt-3.5-turbo",
         messages: [LLMMessage2(role: "user", content: promptgenerationtext.getGenerationTextPrompt(temperatura, vento, currentCode, currentProbPrecipitation, text!, isBadWeather))],
