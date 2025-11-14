@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'dart:io';
+
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
@@ -21,9 +21,7 @@ import 'package:petmeteo/UI/scenes/thirdScreen/thirdScreen.dart';
 
 
 void main() async {
-  print('Cartella di esecuzione corrente: ${Directory.current.path}');
-  print('Percorso assoluto cercato per .env: ${File('.env').absolute.path}');
-  print('File esiste? ${File('.env').existsSync()}');
+  
   await dotenv.load(fileName:'.env');
   WidgetsFlutterBinding.ensureInitialized();
   final prefs = await SharedPreferences.getInstance();

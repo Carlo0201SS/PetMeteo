@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:geolocator/geolocator.dart';
+import 'package:petmeteo/manager/PromptService.dart';
 
 import 'package:petmeteo/manager/backend.dart';
 import 'package:petmeteo/manager/backendLLM1.dart';
@@ -423,23 +424,11 @@ class HomePageViewModel extends ChangeNotifier {
         }
       }
 
-      final prompt1 =
-          """
-    Sei PetMeteo, sei un meteorologo affermato e devi essere in grado di classificare il tempo attraverso due sole parole 
-    (ripeto, solo una di queste due parole e nient'altro, niente generazione frasi ecc.. solo una delle due parole)
-    che dovrai stampare a video: buona, cattiva. 
-    Ricorda che dovessero uscire dati poco realistici con la realtà meteorologica 
-    (temperature troppo elevate, velocità troppo elevate, condizioni del cielo con termini inappropriati), 
-    non devi lasciare nulla come output, nemmeno uno spillo! Ecco i dati a disposizione: 
-    Temperatura: ${temperatura.toStringAsFixed(1)}°, 
-    Cielo: ${_getWeatherString(currentCode)}, 
-    Velocità vento: ${vento.toStringAsFixed(1)} km/h,
-    Probabilità precipitazione: ${currentProbPrecipitation.toString()}
-""";
+PromptService prompt = PromptService();
 
       _llmRequest1 = LLMRequest1(
         model: "gpt-3.5-turbo",
-        messages: [LLMMessage1(role: "user", content: prompt1)],
+        messages: [LLMMessage1(role: "user", content: prompt.getClassifierTextPrompt(temperatura, vento, currentCode, currentProbPrecipitation, isBadWeather))],
         maxTokens: 4096,
         temperature: 1,
         topP: 1,
@@ -461,9 +450,9 @@ class HomePageViewModel extends ChangeNotifier {
           isBadWeather = false;
         }
 
-        print(" Risposta Prompt1: '$risposta' → isBadWeather=$isBadWeather");
+        //print(" Risposta Prompt1: '$risposta' → isBadWeather=$isBadWeather");
       } catch (e) {
-        print("Errore nel Prompt1: $e");
+        //print("Errore nel Prompt1: $e");
         isBadWeather = false;
       }
 
