@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:geolocator/geolocator.dart';
 import 'package:petmeteo/manager/PromptService.dart';
+import 'package:petmeteo/manager/ColorService.dart';
 
 import 'package:petmeteo/manager/backend.dart';
 import 'package:petmeteo/manager/backendLLM1.dart';
@@ -26,7 +27,7 @@ class HomePageViewModel extends ChangeNotifier {
 
   final BackendLLM1 _llmData1 = BackendLLM1();
   final BackendLLM2 _llmData2 =
-  BackendLLM2(); // qui istanzio Backendllm() che mi permette di fare la chiamata POST.
+      BackendLLM2(); // qui istanzio Backendllm() che mi permette di fare la chiamata POST.
 
   LLMRequest1? _llmRequest1; // mappatura della request
   LLMResponse1? _llmResponse1;
@@ -354,7 +355,6 @@ class HomePageViewModel extends ChangeNotifier {
 
   // metodo asincrono che gestisce lo stato dei widget contenenti elementi presi da API terze parti / da dipendenze esterne (librerie).
   Future<void> fetchData() async {
-
     //prende la posizione corrente.
     currentPosition = await LocationService().getCurrentPosition();
     await updateCurrentCity();
@@ -370,7 +370,7 @@ class HomePageViewModel extends ChangeNotifier {
     );
 
     final now = DateTime.now();
-    
+
     DateTime targetHour = now.add(Duration(hours: 24));
     final hours = targetHour.hour;
     int startIndex = 0;
@@ -386,7 +386,6 @@ class HomePageViewModel extends ChangeNotifier {
     icon = HomePageViewModelIcon(
       icon: _getWeatherIcon(_forecast!.hourly!.weathercode![hours + 1]),
     );
-
 
     final temperatura = _forecast?.current?.temperature ?? 0;
     final hourlyCodes = _forecast?.hourly?.weathercode ?? [];
@@ -424,11 +423,22 @@ class HomePageViewModel extends ChangeNotifier {
         }
       }
 
-PromptService promptclassifier = PromptService();
+      PromptService promptclassifier = PromptService();
 
       _llmRequest1 = LLMRequest1(
         model: "gpt-3.5-turbo",
-        messages: [LLMMessage1(role: "user", content: promptclassifier.getClassifierTextPrompt(temperatura, vento, currentCode, currentProbPrecipitation, isBadWeather))],
+        messages: [
+          LLMMessage1(
+            role: "user",
+            content: promptclassifier.getClassifierTextPrompt(
+              temperatura,
+              vento,
+              currentCode,
+              currentProbPrecipitation,
+              isBadWeather,
+            ),
+          ),
+        ],
         maxTokens: 4096,
         temperature: 1,
         topP: 1,
@@ -457,11 +467,22 @@ PromptService promptclassifier = PromptService();
       }
 
       PromptService promptgenerationtext = PromptService();
-      
-      
+
       _llmRequest2 = LLMRequest2(
         model: "gpt-3.5-turbo",
-        messages: [LLMMessage2(role: "user", content: promptgenerationtext.getGenerationTextPrompt(temperatura, vento, currentCode, currentProbPrecipitation, text!, isBadWeather))],
+        messages: [
+          LLMMessage2(
+            role: "user",
+            content: promptgenerationtext.getGenerationTextPrompt(
+              temperatura,
+              vento,
+              currentCode,
+              currentProbPrecipitation,
+              text!,
+              isBadWeather,
+            ),
+          ),
+        ],
         maxTokens: 4096,
         temperature: 1,
         topP: 1,
@@ -513,6 +534,7 @@ PromptService promptclassifier = PromptService();
       int lengthdaily = _forecast?.daily?.weathercode?.length ?? 0;
 
       weatherdaily = List.generate(lengthdaily, (index) {
+
         DateTime dayTime = _forecast!.daily!.time![index];
         final days = ['Dom', 'Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab'];
         String dayName = days[dayTime.weekday % 7];
@@ -530,7 +552,8 @@ PromptService promptclassifier = PromptService();
           temp: 0,
         ); // fallback
       });
-      //------------------------------------------------------------------------
+
+      
       int lengthhourly = _forecast?.hourly?.weathercode?.length ?? 0;
       int limit = lengthhourly > 24 ? 24 : lengthhourly;
 
@@ -590,32 +613,9 @@ PromptService promptclassifier = PromptService();
     }
   }
 
-  Color get backgroundColor {
-    final now = DateTime.now();
-    final hour = now.hour;
-
-    // Dalle 18 alle 6 → nero, altrimenti colore chiaro
-    if (hour >= 18 || hour < 6) {
-      return Colors.black87;
-    } else {
-      return const Color(0xffbcd4df);
-    }
-  }
-
-  Color get iconColor {
-    final now = DateTime.now();
-    final hour = now.hour;
-
-    // Dalle 18 alle 6 → icone bianche, altrimenti nere
-    if (hour >= 18 || hour < 6) {
-      return Colors.white;
-    } else {
-      return Colors.black;
-    }
-  }
+  
 }
 
-//----------------------------------------------------------------------
 class HomePageViewModelHeader {
   String? city;
   String? day;

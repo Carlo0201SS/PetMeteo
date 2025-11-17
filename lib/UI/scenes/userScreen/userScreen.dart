@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:petmeteo/UI/scenes/userScreen/components/menuOpened.dart';
+import 'package:petmeteo/manager/ColorService.dart';
 import 'package:provider/provider.dart';
 import 'package:petmeteo/UI/components3/AppLabelText16.dart';
+
+import 'package:petmeteo/UI/scenes/userScreen/userScreen.dart'; 
 
 
 
@@ -30,6 +33,7 @@ class UserScreen extends StatefulWidget {
 
 class _UserScreen extends State<UserScreen> {
   late HomePageViewModel model;
+  late ColorService changecolor = ColorService();
   bool _initialized = false;
   bool _loading = true;
 
@@ -118,8 +122,8 @@ class _UserScreen extends State<UserScreen> {
     }
 
     return Scaffold(
-      backgroundColor: model.backgroundColor,
-      appBar: AppBar(backgroundColor: model.backgroundColor),
+      backgroundColor: changecolor.backgroundColor,
+      appBar: AppBar(backgroundColor:changecolor.backgroundColor),
       body: AnimatedBuilder(
         animation: model,
         builder: (context, _) {
@@ -133,7 +137,7 @@ class _UserScreen extends State<UserScreen> {
                   Row(
                     children: [
                       Container(
-                        color: model.backgroundColor,
+                        color: changecolor.backgroundColor,
                         width: MediaQuery.of(context).size.width,
                         height: 220,
                         margin: EdgeInsets.all(0),
@@ -145,11 +149,11 @@ class _UserScreen extends State<UserScreen> {
                               text1: model.header?.city ?? "ND",
                               text2: model.header?.temp.toString() ?? "ND",
                               text3: model.header?.day ?? "ND",
-                              color: model.backgroundColor,
+                              color: changecolor.backgroundColor,
                             ),
                             Spacer(flex: 2),
                             MenuIcon(
-                              color: model.backgroundColor,
+                              color: changecolor.backgroundColor,
                               icon: Icons.menu,
                               size: 30,
                               onTap: () {
@@ -178,7 +182,7 @@ class _UserScreen extends State<UserScreen> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Icon(model.icon!.icon, size: 80, color: model.iconColor),
+                      Icon(model.icon!.icon, size: 80, color: changecolor.iconColor),
                       if (model.image?.imagePath != null &&
                           model.image!.imagePath!.isNotEmpty)
                         Image.asset(
@@ -204,7 +208,7 @@ class _UserScreen extends State<UserScreen> {
                       ),
                       SizedBox(height: 15),
                       Container(
-                        color: model.backgroundColor,
+                        color: changecolor.backgroundColor,
                         alignment: Alignment.center,
                         padding: EdgeInsets.symmetric(horizontal: 20),
                         child: Row(
