@@ -1,6 +1,6 @@
 # petmeteo
 
-A new Flutter project.
+Vuoi sapere se il tuo cucciolo può uscire di casa? Questa è l'app che fa al caso tuo! Scegli il tuo cucciolo e scoprirai se è il caso di portarlo fuori o meno!
 
 ## Getting Started
 
